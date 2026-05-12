@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', async function shihabSshihabb007In
     const imgs = files.filter(function(f) { return f.type.startsWith('image/'); });
     shihabSshihabb007State.queue.push.apply(shihabSshihabb007State.queue, imgs);
     if (shihabCount) shihabCount.textContent = shihabSshihabb007State.queue.length + ' file(s) queued';
-    if (shihabPBtn) shihabPBtn.disabled = !shihabFFmpegReady || !shihabSshihabb007State.queue.length;
+    if (shihabPBtn) shihabPBtn.disabled = !shihabSshihabb007State.queue.length;
   }
 
   if (shihabDZ) {
