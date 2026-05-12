@@ -1,0 +1,514 @@
+/**
+ * MHS Image Compressor — Admin CSS
+ * Author: Mehedi Shihab (sshihabb007)
+ * URL: https://www.linkedin.com/in/mehedi-hasan-shihab/
+ */
+
+/* ── Reset & Base ─────────────────────────────────────────────────── */
+#shihab-compressor-app * { box-sizing: border-box; }
+#shihab-compressor-app {
+  font-family: 'Inter', sans-serif;
+  background: #09090b;
+  min-height: 100vh;
+  color: #a5b4fc;
+  padding: 24px;
+  margin: -20px -20px 0;
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+#shihab-compressor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(165,180,252,0.1);
+}
+#shihab-compressor-header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #a5b4fc, #818cf8, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.shihab-compressor-badge {
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #4ade80;
+  background: rgba(74,222,128,0.1);
+  border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+
+/* ── Analytics Strip ─────────────────────────────────────────────── */
+#shihab-compressor-analytics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.shihab-compressor-stat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(165,180,252,0.12);
+  border-radius: 16px;
+  padding: 20px 24px;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.3s, transform 0.2s;
+}
+.shihab-compressor-stat-card:hover {
+  border-color: rgba(165,180,252,0.35);
+  transform: translateY(-2px);
+}
+.shihab-compressor-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #6366f1;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.shihab-compressor-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  color: #e0e7ff;
+  line-height: 1;
+}
+.shihab-compressor-stat-unit {
+  font-size: 0.8rem;
+  color: #6366f1;
+  margin-left: 4px;
+}
+
+/* ── Odometer Animation ──────────────────────────────────────────── */
+@keyframes shihab-odometer-tick {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.shihab-odometer-digit {
+  display: inline-block;
+  animation: shihab-odometer-tick 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* ── Drop Zone ───────────────────────────────────────────────────── */
+#shihab-compressor-dropzone {
+  position: relative;
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  margin-bottom: 28px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: rgba(99,102,241,0.04);
+}
+#shihab-compressor-dropzone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, #6366f1, #818cf8, #a5b4fc, #6366f1);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: shihab-border-rotate 4s linear infinite;
+}
+@keyframes shihab-border-rotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+#shihab-compressor-dropzone.shihab-drag-over {
+  background: rgba(99,102,241,0.12);
+  transform: scale(1.01);
+}
+#shihab-compressor-dropzone.shihab-drag-over::before {
+  animation-duration: 0.8s;
+  background: linear-gradient(135deg, #4ade80, #818cf8, #f472b6, #4ade80);
+}
+.shihab-compressor-drop-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  color: #6366f1;
+  opacity: 0.8;
+}
+.shihab-compressor-drop-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #c7d2fe;
+  margin-bottom: 8px;
+}
+.shihab-compressor-drop-sub {
+  font-size: 0.85rem;
+  color: #6366f1;
+}
+#shihab-compressor-file-input { display: none; }
+#shihab-compressor-browse-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 28px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.3px;
+}
+#shihab-compressor-browse-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.45);
+}
+
+/* ── Engine Loader ───────────────────────────────────────────────── */
+#shihab-compressor-engine-loader {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(165,180,252,0.12);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(20px);
+}
+.shihab-loader-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #818cf8;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 10px;
+}
+.shihab-loader-bar-track {
+  height: 6px;
+  background: rgba(99,102,241,0.15);
+  border-radius: 99px;
+  overflow: hidden;
+}
+#shihab-compressor-engine-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #6366f1, #a5b4fc, #818cf8);
+  background-size: 200% 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  animation: shihab-bar-shimmer 2s linear infinite;
+}
+@keyframes shihab-bar-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Settings Grid ───────────────────────────────────────────────── */
+#shihab-compressor-settings {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.shihab-compressor-setting-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(165,180,252,0.1);
+  border-radius: 14px;
+  padding: 18px 20px;
+  backdrop-filter: blur(20px);
+  transition: border-color 0.3s, transform 0.2s;
+}
+.shihab-compressor-setting-card:hover {
+  border-color: rgba(165,180,252,0.3);
+  transform: translateY(-1px);
+}
+.shihab-setting-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #6366f1;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+/* Toggle Switch */
+.shihab-toggle { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+.shihab-toggle input { display: none; }
+.shihab-toggle-track {
+  width: 44px; height: 24px;
+  background: rgba(99,102,241,0.2);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 99px;
+  position: relative;
+  transition: all 0.3s;
+}
+.shihab-toggle input:checked + .shihab-toggle-track { background: #6366f1; border-color: #818cf8; }
+.shihab-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 18px; height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.shihab-toggle input:checked + .shihab-toggle-track::after { transform: translateX(20px); }
+.shihab-toggle-text { font-size: 0.85rem; color: #c7d2fe; font-weight: 500; }
+/* Range Slider */
+.shihab-range {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #6366f1 var(--val, 75%), rgba(99,102,241,0.2) var(--val, 75%));
+  outline: none;
+  cursor: pointer;
+}
+.shihab-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a5b4fc);
+  box-shadow: 0 0 10px rgba(99,102,241,0.6);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.shihab-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
+/* Format Selector */
+.shihab-format-group { display: flex; gap: 10px; }
+.shihab-format-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 8px;
+  background: transparent;
+  color: #818cf8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: 'JetBrains Mono', monospace;
+}
+.shihab-format-btn.shihab-active, .shihab-format-btn:hover {
+  background: #6366f1;
+  border-color: #818cf8;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+}
+/* Number input */
+.shihab-number-input {
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.25);
+  border-radius: 8px;
+  color: #c7d2fe;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  padding: 6px 12px;
+  width: 80px;
+  outline: none;
+  transition: border-color 0.25s;
+}
+.shihab-number-input:focus { border-color: #6366f1; }
+
+/* ── Action Bar ───────────────────────────────────────────────────── */
+#shihab-compressor-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  align-items: center;
+}
+#shihab-compressor-process-btn {
+  padding: 12px 36px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#shihab-compressor-process-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(99,102,241,0.5);
+}
+#shihab-compressor-process-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#shihab-compressor-clear-btn {
+  padding: 12px 24px;
+  background: transparent;
+  color: #818cf8;
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+#shihab-compressor-clear-btn:hover {
+  border-color: #818cf8;
+  color: #c7d2fe;
+  background: rgba(99,102,241,0.08);
+}
+#shihab-compressor-save-btn {
+  padding: 12px 24px;
+  background: rgba(74,222,128,0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-left: auto;
+}
+#shihab-compressor-save-btn:hover {
+  background: rgba(74,222,128,0.2);
+  border-color: #4ade80;
+  box-shadow: 0 4px 16px rgba(74,222,128,0.25);
+}
+
+/* ── Neural Feed ─────────────────────────────────────────────────── */
+#shihab-compressor-feed {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(165,180,252,0.1);
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+}
+.shihab-feed-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(165,180,252,0.08);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #6366f1;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.shihab-feed-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: shihab-pulse 1.5s ease infinite;
+}
+@keyframes shihab-pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.8); }
+}
+#shihab-compressor-feed-list {
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99,102,241,0.4) transparent;
+}
+#shihab-compressor-feed-list::-webkit-scrollbar { width: 4px; }
+#shihab-compressor-feed-list::-webkit-scrollbar-track { background: transparent; }
+#shihab-compressor-feed-list::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 99px; }
+#shihab-compressor-feed-empty {
+  padding: 48px;
+  text-align: center;
+  color: rgba(99,102,241,0.4);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Feed Row */
+.shihab-feed-row {
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.2s;
+  animation: shihab-row-slide 0.3s ease;
+}
+@keyframes shihab-row-slide {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.shihab-feed-row:hover { background: rgba(99,102,241,0.05); }
+.shihab-feed-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.shihab-feed-filename {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #c7d2fe;
+  font-family: 'JetBrains Mono', monospace;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shihab-feed-sizes {
+  font-size: 0.75rem;
+  color: #818cf8;
+  font-family: 'JetBrains Mono', monospace;
+}
+.shihab-feed-savings {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.shihab-savings-good  { background: rgba(74,222,128,0.15); color: #4ade80; }
+.shihab-savings-ok    { background: rgba(251,191,36,0.15); color: #fbbf24; }
+.shihab-savings-low   { background: rgba(99,102,241,0.15); color: #818cf8; }
+.shihab-mini-bar-track {
+  height: 3px;
+  background: rgba(99,102,241,0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.shihab-mini-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #4ade80);
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+.shihab-feed-tags {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: #4ade80;
+  font-style: italic;
+  opacity: 0.8;
+}
+.shihab-feed-status-icon { font-size: 1rem; }
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+#shihab-compressor-footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: rgba(99,102,241,0.45);
+  font-family: 'JetBrains Mono', monospace;
+}
+#shihab-compressor-footer a { color: rgba(99,102,241,0.7); text-decoration: none; }
+#shihab-compressor-footer a:hover { color: #818cf8; }
+
+/* ── WP Conflict Notice Override ─────────────────────────────────── */
+.shihab-compressor-conflict-notice { border-left-color: #f472b6 !important; }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  #shihab-compressor-analytics { grid-template-columns: 1fr 1fr; }
+  #shihab-compressor-settings  { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  #shihab-compressor-analytics { grid-template-columns: 1fr; }
+  #shihab-compressor-app { padding: 12px; }
+}
