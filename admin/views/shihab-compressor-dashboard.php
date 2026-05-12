@@ -13,6 +13,8 @@ $shihab_strip   = $shihab_sshihabb007_settings['strip_metadata']     ?? true;
 $shihab_batch   = $shihab_sshihabb007_settings['batch_concurrency']  ?? 3;
 $shihab_ai      = $shihab_sshihabb007_settings['ai_alt_text']        ?? true;
 $shihab_idb     = $shihab_sshihabb007_settings['indexeddb_cache']    ?? true;
+$shihab_auto    = $shihab_sshihabb007_settings['auto_optimize']      ?? true;
+$shihab_auto_log = get_option( 'shihab_compressor_sshihabb007_auto_log', [] );
 
 $shihab_total_imgs  = $shihab_sshihabb007_stats['total_images']   ?? 0;
 $shihab_total_saved = $shihab_sshihabb007_stats['total_saved']    ?? 0;
@@ -154,6 +156,16 @@ $shihab_saved_label = $shihab_total_saved >= 1048576
       </div>
     </div>
 
+    <!-- Auto-Optimize on Upload -->
+    <div class="shihab-compressor-setting-card" style="border:1px solid rgba(74,222,128,0.25);background:rgba(74,222,128,0.04);">
+      <span class="shihab-setting-label" style="color:#4ade80;">⚡ Auto-Optimize on Upload</span>
+      <label class="shihab-toggle">
+        <input type="checkbox" id="shihab-toggle-auto" <?php checked( $shihab_auto, true ); ?>>
+        <span class="shihab-toggle-track"></span>
+        <span class="shihab-toggle-text">Automatically compress every new image added to the Media Library</span>
+      </label>
+    </div>
+
   </div>
 
   <!-- ── Action Bar ──────────────────────────────────────────── -->
@@ -175,6 +187,45 @@ $shihab_saved_label = $shihab_total_saved >= 1048576
     </div>
     <div id="shihab-compressor-feed-list">
       <div id="shihab-compressor-feed-empty">No images processed yet. Drop files above to begin.</div>
+    </div>
+  </div>
+
+  <!-- ── Auto-Optimize Activity Log ──────────────────────────── -->
+  <div id="shihab-auto-log-section" style="margin-top:24px;">
+    <div class="shihab-feed-header" style="border-color:rgba(74,222,128,0.3);">
+      <span class="shihab-feed-dot" style="background:#4ade80;box-shadow:0 0 8px #4ade80;"></span>
+      Auto-Optimize Log — On-Upload Activity
+      <span style="margin-left:auto;font-size:0.7rem;color:#6b7280;">Last <?php echo count($shihab_auto_log); ?> uploads</span>
+    </div>
+    <div id="shihab-auto-log-list" style="padding:8px 0;">
+      <?php if ( empty( $shihab_auto_log ) ) : ?>
+        <div style="text-align:center;color:#4b5563;font-style:italic;padding:20px;font-size:0.82rem;"
+          id="shihab-auto-log-empty">No auto-optimized images yet. Upload any image to WordPress and it will appear here.</div>
+      <?php else : ?>
+        <?php foreach ( $shihab_auto_log as $shihab_entry ) :
+          $shihab_ok   = $shihab_entry['status'] === 'success';
+          $shihab_icon = $shihab_ok ? '✅' : '❌';
+          $shihab_orig_f = $shihab_entry['orig'] >= 1048576
+            ? round($shihab_entry['orig']/1048576,1).'MB'
+            : round($shihab_entry['orig']/1024,1).'KB';
+          $shihab_opt_f = $shihab_entry['opt'] >= 1048576
+            ? round($shihab_entry['opt']/1048576,1).'MB'
+            : round($shihab_entry['opt']/1024,1).'KB';
+          $shihab_ts = human_time_diff( $shihab_entry['timestamp'], current_time('timestamp') ) . ' ago';
+        ?>
+        <div class="shihab-feed-row" style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);">
+          <span style="font-size:1rem;"><?php echo $shihab_icon; ?></span>
+          <span style="flex:1;font-size:0.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="<?php echo esc_attr($shihab_entry['file']); ?>">
+            <?php echo esc_html( $shihab_entry['file'] ); ?>
+          </span>
+          <?php if ($shihab_ok) : ?>
+          <span style="font-size:0.75rem;color:#9ca3af;"><?php echo esc_html($shihab_orig_f); ?> &rarr; <?php echo esc_html($shihab_opt_f); ?></span>
+          <span style="font-size:0.75rem;font-weight:700;color:<?php echo $shihab_entry['pct']>=30?'#4ade80':($shihab_entry['pct']>=10?'#facc15':'#f87171'); ?>;">-<?php echo $shihab_entry['pct']; ?>%</span>
+          <?php endif; ?>
+          <span style="font-size:0.7rem;color:#6b7280;white-space:nowrap;"><?php echo esc_html($shihab_ts); ?></span>
+        </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </div>
   </div>
 

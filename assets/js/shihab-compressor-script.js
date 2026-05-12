@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', async function shihabSshihabb007In
     shihabSshihabb007State.settings.format = this.dataset.shihabFmt;
   }));
 
-  [['shihab-toggle-resize','smartResize'],['shihab-toggle-strip','stripMeta'],['shihab-toggle-ai','aiAltText']].forEach(function(pair) {
+  [['shihab-toggle-resize','smartResize'],['shihab-toggle-strip','stripMeta'],['shihab-toggle-ai','aiAltText'],['shihab-toggle-auto','autoOptimize']].forEach(function(pair) {
     const el = document.getElementById(pair[0]);
     if (el) el.addEventListener('change', function() { shihabSshihabb007State.settings[pair[1]] = el.checked; });
   });
@@ -555,6 +555,7 @@ document.addEventListener('DOMContentLoaded', async function shihabSshihabb007In
     fd.append('smart_resize', s.smartResize ? '1':'0'); fd.append('strip_metadata', s.stripMeta ? '1':'0');
     fd.append('batch_concurrency', s.concurrency); fd.append('ai_alt_text', s.aiAltText ? '1':'0');
     fd.append('indexeddb_cache', s.useCache ? '1':'0');
+    fd.append('auto_optimize', s.autoOptimize ? '1':'0');
     const r = await (await fetch(shihabCompressorData.ajaxUrl, { method:'POST', body: fd })).json();
     shihabSaveBtn.textContent = r.success ? 'Saved!' : 'Error';
     setTimeout(function() { shihabSaveBtn.textContent = 'Save Settings'; }, 2000);

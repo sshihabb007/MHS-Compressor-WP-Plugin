@@ -36,6 +36,7 @@ $shihab_sshihabb007_includes = [
     'includes/class-shihab-compressor-admin.php',
     'includes/class-shihab-compressor-api.php',
     'includes/class-shihab-compressor-fallback.php',
+    'includes/class-shihab-compressor-auto.php',
 ];
 
 foreach ($shihab_sshihabb007_includes as $shihab_sshihabb007_file) {
@@ -66,13 +67,14 @@ register_activation_hook(__FILE__, 'shihab_sshihabb007_activate');
 function shihab_sshihabb007_activate()
 {
     add_option('shihab_compressor_sshihabb007_settings', [
-        'output_format' => 'webp',
-        'quality' => 75,
-        'smart_resize' => true,
-        'strip_metadata' => true,
+        'output_format'     => 'webp',
+        'quality'           => 75,
+        'smart_resize'      => true,
+        'strip_metadata'    => true,
         'batch_concurrency' => 3,
-        'ai_alt_text' => true,
-        'indexeddb_cache' => true,
+        'ai_alt_text'       => true,
+        'indexeddb_cache'   => true,
+        'auto_optimize'     => true,
     ]);
     add_option('shihab_compressor_sshihabb007_stats', [
         'total_images' => 0,
@@ -114,12 +116,16 @@ function shihab_sshihabb007_detect_conflicts()
 }
 
 // ─────────────────────────────────────────────
-//  Boot Admin & REST API Modules
+//  Boot Admin, REST API & Auto-Optimizer
 // ─────────────────────────────────────────────
 if (is_admin()) {
     $shihab_sshihabb007_admin = new Shihab_Compressor_Admin();
     $shihab_sshihabb007_admin->shihab_sshihabb007_init();
 }
+
+// Auto-Optimizer: runs on every image upload (front-end & admin)
+$shihab_sshihabb007_auto = new Shihab_Compressor_Auto();
+$shihab_sshihabb007_auto->shihab_sshihabb007_init();
 
 add_action('rest_api_init', function () {
     $shihab_sshihabb007_api = new Shihab_Compressor_API();

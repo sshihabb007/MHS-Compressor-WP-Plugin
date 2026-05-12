@@ -157,6 +157,7 @@ class Shihab_Compressor_Admin {
                 'batch_concurrency' => 3,
                 'ai_alt_text'       => true,
                 'indexeddb_cache'   => true,
+                'auto_optimize'     => true,
             ] );
             $shihab_sshihabb007_stats = get_option( 'shihab_compressor_sshihabb007_stats', [
                 'total_images'  => 0,
@@ -186,6 +187,7 @@ class Shihab_Compressor_Admin {
             'batch_concurrency' => intval( $_POST['batch_concurrency'] ?? 3 ),
             'ai_alt_text'       => (bool) ( $_POST['ai_alt_text'] ?? true ),
             'indexeddb_cache'   => (bool) ( $_POST['indexeddb_cache'] ?? true ),
+            'auto_optimize'     => (bool) ( $_POST['auto_optimize'] ?? false ),
         ];
 
         update_option( 'shihab_compressor_sshihabb007_settings', $shihab_sshihabb007_new_settings );
