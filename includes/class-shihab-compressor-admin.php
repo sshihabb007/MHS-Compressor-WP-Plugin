@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Admin Module — MHS Image Compressor
  *
@@ -179,15 +179,25 @@ class Shihab_Compressor_Admin {
             wp_send_json_error( [ 'message' => 'Unauthorized — sshihabb007 access denied.' ] );
         }
 
+        // Helper: checkbox value — JS sends '1' or '0' as a string; intval() converts correctly.
+        // NOTE: (bool)'0' === true in PHP, so never use (bool) on string checkbox values.
+        $shihab_bool = fn( $key, $default = true ) => (bool) intval( $_POST[ $key ] ?? ( $default ? '1' : '0' ) );
+
         $shihab_sshihabb007_new_settings = [
-            'output_format'     => sanitize_text_field( $_POST['output_format'] ?? 'webp' ),
-            'quality'           => intval( $_POST['quality'] ?? 75 ),
-            'smart_resize'      => (bool) ( $_POST['smart_resize'] ?? true ),
-            'strip_metadata'    => (bool) ( $_POST['strip_metadata'] ?? true ),
-            'batch_concurrency' => intval( $_POST['batch_concurrency'] ?? 3 ),
-            'ai_alt_text'       => (bool) ( $_POST['ai_alt_text'] ?? true ),
-            'indexeddb_cache'   => (bool) ( $_POST['indexeddb_cache'] ?? true ),
-            'auto_optimize'     => (bool) ( $_POST['auto_optimize'] ?? false ),
+            'output_format'      => sanitize_text_field( $_POST['output_format']      ?? 'webp' ),
+            'quality'            => intval( $_POST['quality']            ?? 75 ),
+            'compression_tier'   => sanitize_text_field( $_POST['compression_tier']   ?? 'glossy' ),
+            'smart_resize'       => $shihab_bool( 'smart_resize',      true ),
+            'max_width'          => intval( $_POST['max_width']          ?? 2000 ),
+            'strip_metadata'     => $shihab_bool( 'strip_metadata',    true ),
+            'batch_concurrency'  => intval( $_POST['batch_concurrency'] ?? 3 ),
+            'ai_alt_text'        => $shihab_bool( 'ai_alt_text',       true ),
+            'ai_smart_quality'   => $shihab_bool( 'ai_smart_quality',  true ),
+            'ai_seo_filename'    => $shihab_bool( 'ai_seo_filename',   true ),
+            'indexeddb_cache'    => $shihab_bool( 'indexeddb_cache',   true ),
+            'auto_optimize'      => $shihab_bool( 'auto_optimize',     true ),
+            'backup_originals'   => $shihab_bool( 'backup_originals',  true ),
+            'dynamic_delivery'   => $shihab_bool( 'dynamic_delivery',  false ),
         ];
 
         update_option( 'shihab_compressor_sshihabb007_settings', $shihab_sshihabb007_new_settings );

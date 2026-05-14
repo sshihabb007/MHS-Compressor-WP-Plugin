@@ -129,16 +129,17 @@ async function shihabSshihabb007LoadFFmpeg() {
    SECTION 4 â€” State Management
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const shihabSshihabb007State = {
-  queue:       [],   // File objects waiting to process
-  results:     [],   // Completed results
+  queue:       [],
+  results:     [],
   settings: {
-    format:      shihabCompressorData?.settings?.output_format     ?? 'webp',
-    quality:     shihabCompressorData?.settings?.quality            ?? 75,
-    smartResize: shihabCompressorData?.settings?.smart_resize       ?? true,
-    stripMeta:   shihabCompressorData?.settings?.strip_metadata     ?? true,
-    concurrency: shihabCompressorData?.settings?.batch_concurrency  ?? 3,
-    aiAltText:   shihabCompressorData?.settings?.ai_alt_text        ?? true,
-    useCache:    shihabCompressorData?.settings?.indexeddb_cache    ?? true,
+    format:        shihabCompressorData?.settings?.output_format    ?? 'webp',
+    quality:       shihabCompressorData?.settings?.quality           ?? 75,
+    smartResize:   shihabCompressorData?.settings?.smart_resize      ?? true,
+    stripMeta:     shihabCompressorData?.settings?.strip_metadata    ?? true,
+    concurrency:   shihabCompressorData?.settings?.batch_concurrency ?? 3,
+    aiAltText:     shihabCompressorData?.settings?.ai_alt_text       ?? true,
+    useCache:      shihabCompressorData?.settings?.indexeddb_cache   ?? true,
+    autoOptimize:  shihabCompressorData?.settings?.auto_optimize     !== false,
   },
   liveBytesSaved: 0,
   liveImages:     parseInt(shihabCompressorData?.stats?.total_images  ?? 0),
