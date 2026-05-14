@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * PHP Fallback Compression — MHS Image Compressor
  *
@@ -28,79 +28,137 @@ class Shihab_Compressor_Fallback {
      * @return void Sends JSON response.
      */
     public function shihab_sshihabb007_handle_upload() {
-        if ( empty( $_FILES['image'] ) ) {
-            wp_send_json_error( [ 'message' => 'No file received — sshihabb007 fallback.' ] );
+        // ── Clean any stray output (PHP notices/warnings) so JSON is always pure
+        if ( ob_get_level() ) {
+            ob_clean();
         }
 
-        if ( ! function_exists( 'wp_handle_upload' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/file.php';
-        }
-        if ( ! function_exists( 'media_handle_upload' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/media.php';
-        }
-        if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/image.php';
+        if ( empty( $_FILES['image'] ) || $_FILES['image']['error'] !== UPLOAD_ERR_OK ) {
+            $shihab_err_code = $_FILES['image']['error'] ?? -1;
+            wp_send_json_error( [ 'message' => "No valid file received (error code: {$shihab_err_code})." ] );
         }
 
-        $shihab_sshihabb007_quality   = intval( $_POST['quality'] ?? 75 );
-        $shihab_sshihabb007_format    = sanitize_text_field( $_POST['format'] ?? 'webp' );
+        // ── Load WP upload helpers ───────────────────────────────────────────
+        if ( ! function_exists( 'wp_handle_sideload' ) )          require_once ABSPATH . 'wp-admin/includes/file.php';
+        if ( ! function_exists( 'media_handle_sideload' ) )        require_once ABSPATH . 'wp-admin/includes/media.php';
+        if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        $shihab_sshihabb007_quality   = intval( $_POST['quality']  ?? 75 );
+        $shihab_sshihabb007_format    = sanitize_text_field( $_POST['format']   ?? 'webp' );
         $shihab_sshihabb007_alt_text  = sanitize_text_field( $_POST['alt_text'] ?? '' );
         $shihab_sshihabb007_orig_size = intval( $_FILES['image']['size'] ?? 0 );
+        $shihab_sshihabb007_src       = $_FILES['image']['tmp_name'];
 
-        // Try GD first, then Imagick
+        // ── Validate source exists ───────────────────────────────────────────
+        if ( ! file_exists( $shihab_sshihabb007_src ) ) {
+            wp_send_json_error( [ 'message' => 'Uploaded temp file missing on server.' ] );
+        }
+
+        // ── Compress: GD → Imagick ───────────────────────────────────────────
         $shihab_sshihabb007_result = $this->shihab_sshihabb007_compress_gd(
-            $_FILES['image']['tmp_name'],
-            $shihab_sshihabb007_quality,
-            $shihab_sshihabb007_format
+            $shihab_sshihabb007_src, $shihab_sshihabb007_quality, $shihab_sshihabb007_format
         );
 
         if ( ! $shihab_sshihabb007_result['success'] && extension_loaded( 'imagick' ) ) {
             $shihab_sshihabb007_result = $this->shihab_sshihabb007_compress_imagick(
-                $_FILES['image']['tmp_name'],
-                $shihab_sshihabb007_quality,
-                $shihab_sshihabb007_format
+                $shihab_sshihabb007_src, $shihab_sshihabb007_quality, $shihab_sshihabb007_format
             );
         }
 
         if ( ! $shihab_sshihabb007_result['success'] ) {
-            wp_send_json_error( [ 'message' => 'PHP compression failed: ' . $shihab_sshihabb007_result['error'] ] );
+            if ( ob_get_level() ) ob_clean();
+            wp_send_json_error( [ 'message' => 'Compression failed: ' . ( $shihab_sshihabb007_result['error'] ?? 'GD/Imagick error' ) ] );
         }
 
-        // Save to WP Media Library
-        $shihab_sshihabb007_tmp_path  = $shihab_sshihabb007_result['tmp_path'];
-        $shihab_sshihabb007_basename  = pathinfo( sanitize_file_name( $_FILES['image']['name'] ), PATHINFO_FILENAME );
-        $shihab_sshihabb007_newname   = $shihab_sshihabb007_basename . '.' . $shihab_sshihabb007_format;
+        // ── Build file array for WordPress sideload ──────────────────────────
+        $shihab_sshihabb007_tmp      = $shihab_sshihabb007_result['tmp_path'];
+        $shihab_sshihabb007_basename = pathinfo( sanitize_file_name( $_FILES['image']['name'] ), PATHINFO_FILENAME );
+        $shihab_sshihabb007_newname  = $shihab_sshihabb007_basename . '.' . $shihab_sshihabb007_format;
+
+        // mime map — WordPress needs this to accept non-standard uploads
+        $shihab_sshihabb007_mime_map = [
+            'webp' => 'image/webp',
+            'avif' => 'image/avif',
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+        ];
+        $shihab_sshihabb007_mime = $shihab_sshihabb007_mime_map[ $shihab_sshihabb007_format ] ?? 'image/webp';
 
         $shihab_sshihabb007_file_array = [
             'name'     => $shihab_sshihabb007_newname,
-            'tmp_name' => $shihab_sshihabb007_tmp_path,
+            'tmp_name' => $shihab_sshihabb007_tmp,
+            'type'     => $shihab_sshihabb007_mime,
+            'error'    => 0,
+            'size'     => file_exists( $shihab_sshihabb007_tmp ) ? filesize( $shihab_sshihabb007_tmp ) : 0,
         ];
+
+        // ── Temporarily allow WebP/AVIF uploads ─────────────────────────────
+        add_filter( 'upload_mimes', [ $this, 'shihab_sshihabb007_allow_next_gen_mimes' ] );
+        // ── Prevent auto-optimizer from re-processing this sideload ─────────
+        add_filter( 'wp_generate_attachment_metadata', [ $this, 'shihab_sshihabb007_skip_auto_flag' ], 1, 2 );
 
         $shihab_sshihabb007_id = media_handle_sideload( $shihab_sshihabb007_file_array, 0, $shihab_sshihabb007_basename );
 
+        remove_filter( 'upload_mimes', [ $this, 'shihab_sshihabb007_allow_next_gen_mimes' ] );
+        remove_filter( 'wp_generate_attachment_metadata', [ $this, 'shihab_sshihabb007_skip_auto_flag' ], 1 );
+
+        @unlink( $shihab_sshihabb007_tmp );
+
         if ( is_wp_error( $shihab_sshihabb007_id ) ) {
-            @unlink( $shihab_sshihabb007_tmp_path );
-            wp_send_json_error( [ 'message' => $shihab_sshihabb007_id->get_error_message() ] );
+            if ( ob_get_level() ) ob_clean();
+            wp_send_json_error( [ 'message' => 'Media library error: ' . $shihab_sshihabb007_id->get_error_message() ] );
         }
 
+        // ── Save meta ────────────────────────────────────────────────────────
         if ( ! empty( $shihab_sshihabb007_alt_text ) ) {
             update_post_meta( $shihab_sshihabb007_id, '_wp_attachment_image_alt', $shihab_sshihabb007_alt_text );
         }
-        update_post_meta( $shihab_sshihabb007_id, '_shihab_compressor_sshihabb007_optimized', 'php_fallback' );
+        update_post_meta( $shihab_sshihabb007_id, '_shihab_compressor_sshihabb007_optimized',      'php_fallback' );
+        update_post_meta( $shihab_sshihabb007_id, '_shihab_compressor_sshihabb007_auto_done',       '1' );
+        update_post_meta( $shihab_sshihabb007_id, '_shihab_compressor_sshihabb007_original_size',   $shihab_sshihabb007_orig_size );
 
-        $shihab_sshihabb007_opt_size   = filesize( get_attached_file( $shihab_sshihabb007_id ) ) ?: 0;
-        $shihab_sshihabb007_saved      = max( 0, $shihab_sshihabb007_orig_size - $shihab_sshihabb007_opt_size );
+        $shihab_sshihabb007_opt_size = filesize( get_attached_file( $shihab_sshihabb007_id ) ) ?: 0;
+        $shihab_sshihabb007_saved    = max( 0, $shihab_sshihabb007_orig_size - $shihab_sshihabb007_opt_size );
+        $shihab_sshihabb007_pct      = $shihab_sshihabb007_orig_size > 0
+            ? round( ( $shihab_sshihabb007_saved / $shihab_sshihabb007_orig_size ) * 100, 1 ) : 0;
 
-        @unlink( $shihab_sshihabb007_tmp_path );
+        update_post_meta( $shihab_sshihabb007_id, '_shihab_compressor_sshihabb007_savings_bytes', $shihab_sshihabb007_saved );
 
+        // ── Increment global stats ───────────────────────────────────────────
+        $shihab_st = get_option( 'shihab_compressor_sshihabb007_stats',
+            [ 'total_images' => 0, 'total_saved' => 0, 'total_ai_tags' => 0 ] );
+        $shihab_st['total_images']++;
+        $shihab_st['total_saved'] += $shihab_sshihabb007_saved;
+        if ( $shihab_sshihabb007_alt_text ) $shihab_st['total_ai_tags']++;
+        update_option( 'shihab_compressor_sshihabb007_stats', $shihab_st );
+
+        if ( ob_get_level() ) ob_clean();
         wp_send_json_success( [
             'attachment_id'  => $shihab_sshihabb007_id,
             'url'            => wp_get_attachment_url( $shihab_sshihabb007_id ),
+            'original_size'  => $shihab_sshihabb007_orig_size,
+            'optimized_size' => $shihab_sshihabb007_opt_size,
             'saved_bytes'    => $shihab_sshihabb007_saved,
+            'saved_pct'      => $shihab_sshihabb007_pct,
             'engine'         => 'php_fallback',
-            'author' => 'MEHEDI HASAN SHIHAB sshihabb007',
+            'author'         => 'MEHEDI HASAN SHIHAB sshihabb007',
         ] );
     }
+
+    /** Allow WebP & AVIF in WordPress upload_mimes filter */
+    public function shihab_sshihabb007_allow_next_gen_mimes( $mimes ) {
+        $mimes['webp'] = 'image/webp';
+        $mimes['avif'] = 'image/avif';
+        return $mimes;
+    }
+
+    /** Mark attachment so auto-optimizer skips it (prevents re-compression loop) */
+    public function shihab_sshihabb007_skip_auto_flag( $metadata, $attachment_id ) {
+        update_post_meta( $attachment_id, '_shihab_compressor_sshihabb007_auto_done', '1' );
+        return $metadata;
+    }
+
 
     /**
      * Public wrapper: compress any file path directly (used by Directory Smush).

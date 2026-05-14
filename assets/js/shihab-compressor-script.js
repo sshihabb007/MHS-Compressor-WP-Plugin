@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MHS Image Compressor â€” Core Client-Side Engine
  * Author: MEHEDI HASAN SHIHAB HASAN SHIHAB (sshihabb007)
  * URL: https://mehedi-hasan-shihab.netlify.app/
@@ -356,12 +356,21 @@ async function shihabSshihabb007UploadToWP(shihabBlob, shihabFilename, shihabAlt
 async function shihabSshihabb007PHPFallback(shihabFile, shihabAltText) {
   const shihabFD = new FormData();
   shihabFD.append('action', 'shihab_compressor_php_fallback');
-  shihabFD.append('nonce', shihabCompressorData.nonce);
-  shihabFD.append('image', shihabFile, shihabFile.name);
+  shihabFD.append('nonce',  shihabCompressorData.nonce);
+  shihabFD.append('image',  shihabFile, shihabFile.name);
   shihabFD.append('quality', shihabSshihabb007State.settings.quality);
-  shihabFD.append('format', shihabSshihabb007State.settings.format);
+  shihabFD.append('format',  shihabSshihabb007State.settings.format);
   shihabFD.append('alt_text', shihabAltText);
-  return (await fetch(shihabCompressorData.ajaxUrl, { method: 'POST', body: shihabFD })).json();
+
+  const shihabResp = await fetch(shihabCompressorData.ajaxUrl, { method: 'POST', body: shihabFD });
+  const shihabText = await shihabResp.text();
+  try {
+    return JSON.parse(shihabText);
+  } catch (shihabParseErr) {
+    // Log raw server output so developers can diagnose PHP warnings/notices
+    console.error('[MHS] PHP fallback raw response:', shihabText);
+    throw new Error('Server returned non-JSON. Check PHP error log. Preview: ' + shihabText.slice(0, 120));
+  }
 }
 
 /* -------------------------------------------------------------------
@@ -388,9 +397,31 @@ async function shihabSshihabb007ProcessImage(shihabFile, shihabFmt) {
         shihabBlob = shihabC.blob; shihabOrigSize = shihabC.originalSize; shihabOptSize = shihabC.optimizedSize;
       } else {
         shihabAltText = await shihabAIPromise;
-        const shihabFB = await shihabSshihabb007PHPFallback(shihabFile, shihabAltText);
-        shihabSshihabb007UpdateFeedRow(shihabRowId, { origSize: shihabSshihabb007FormatBytes(shihabFile.size), optSize: 'PHP', savings: '', status: shihabFB.success ? '?' : '?', altText: shihabAltText });
-        shihabSshihabb007IncrementStats(0, !!shihabAltText);
+        let shihabFB;
+        try {
+          shihabFB = await shihabSshihabb007PHPFallback(shihabFile, shihabAltText);
+        } catch (shihabFBErr) {
+          shihabSshihabb007UpdateFeedRow(shihabRowId, { status: '❌ ' + shihabFBErr.message });
+          return;
+        }
+        if (shihabFB && shihabFB.success) {
+          const shihabD    = shihabFB.data || {};
+          const shihabOrig = shihabD.original_size  || shihabFile.size;
+          const shihabOpt  = shihabD.optimized_size || shihabOrig;
+          const shihabSv   = Math.max(0, shihabOrig - shihabOpt);
+          const shihabPct  = shihabOrig > 0 ? Math.round((shihabSv / shihabOrig) * 100) : 0;
+          shihabSshihabb007UpdateFeedRow(shihabRowId, {
+            origSize: shihabSshihabb007FormatBytes(shihabOrig),
+            optSize:  shihabSshihabb007FormatBytes(shihabOpt),
+            savings:  '-' + shihabPct + '%',
+            status:   '✅',
+            altText:  shihabAltText,
+          });
+          shihabSshihabb007IncrementStats(shihabSv, !!shihabAltText);
+        } else {
+          const shihabMsg = (shihabFB && shihabFB.data && shihabFB.data.message) || 'Compression failed';
+          shihabSshihabb007UpdateFeedRow(shihabRowId, { status: '❌ ' + shihabMsg });
+        }
         return;
       }
       shihabAltText = await shihabAIPromise;
