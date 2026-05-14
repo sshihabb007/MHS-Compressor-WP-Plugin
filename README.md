@@ -1,9 +1,9 @@
-# MHS Image Compressor ⚡
+﻿# MHS Image Compressor ⚡
 
 **A futuristic, highly optimized WordPress image compressor.**  
 **Version:** 1.0.0  
-**Author:** Mehedi Shihab (`sshihabb007`)  
-**URL:** [https://www.linkedin.com/in/mehedi-hasan-shihab/](https://www.linkedin.com/in/mehedi-hasan-shihab/)
+**Author:** MEHEDI HASAN SHIHAB (`sshihabb007`)  
+**URL:** [https://mehedi-hasan-shihab.netlify.app/](https://mehedi-hasan-shihab.netlify.app/)
 
 ---
 
@@ -72,5 +72,7 @@ Packaged in a stunning **Cyberpunk-themed Dashboard** (using Tailwind CSS v4 and
 
 ## 📜 Credits & License
 
-Built exclusively by **Mehedi Shihab (sshihabb007)**.
+Built exclusively by **MEHEDI HASAN SHIHAB (sshihabb007)**.
 * **License:** GPL-2.0+
+
+

@@ -1,13 +1,13 @@
-<?php
+﻿<?php
 /**
- * Uninstall Handler — MHS Image Compressor by Shihab (sshihabb007)
+ * Uninstall Handler — MHS Image Compressor (sshihabb007)
  *
  * Called automatically by WordPress when the plugin is deleted.
  * Cleans up all options and data created by the plugin.
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
- * @link    https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
+ * @link    https://mehedi-hasan-shihab.netlify.app/
  */
 
 // Block direct access — sshihabb007 security check
@@ -55,3 +55,5 @@ $wpdb->delete(
     [ 'meta_key' => '_shihab_compressor_sshihabb007_ai_alt_text' ],
     [ '%s' ]
 );
+
+

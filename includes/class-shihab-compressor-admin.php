@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Admin Module — MHS Image Compressor
  *
@@ -6,8 +6,8 @@
  * and localizes JS data for the client-side engine.
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
- * @link    https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
+ * @link    https://mehedi-hasan-shihab.netlify.app/
  */
 
 // Block direct access
@@ -134,8 +134,8 @@ class Shihab_Compressor_Admin {
                 'stats'       => $shihab_sshihabb007_stats,
                 'restNonce'   => wp_create_nonce( 'wp_rest' ),
                 'version'     => SHIHAB_COMPRESSOR_VERSION,
-                'author'      => 'Mehedi Shihab sshihabb007',
-                'authorUrl'   => 'https://www.linkedin.com/in/mehedi-hasan-shihab/',
+                'author' => 'MEHEDI HASAN SHIHAB sshihabb007',
+                'authorUrl'   => 'https://mehedi-hasan-shihab.netlify.app/',
             ]
         );
     }
@@ -209,3 +209,5 @@ class Shihab_Compressor_Admin {
         wp_send_json_success( $shihab_sshihabb007_stats );
     }
 }
+
+

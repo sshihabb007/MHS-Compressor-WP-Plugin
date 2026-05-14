@@ -1,18 +1,18 @@
 <?php
 /**
- * Plugin Name:       MHS Image Compressor by Shihab
- * Plugin URI:        https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * Plugin Name:       MHS Image Compressor
+ * Plugin URI:        https://mehedi-hasan-shihab.netlify.app/
  * Description:       A futuristic client-side image optimizer using FFmpeg.wasm, AI alt-text via Transformers.js, and IndexedDB caching. Converts images to WebP/AVIF with smart resize, metadata stripping, and batch processing — all in the browser.
  * Version:           1.0.0
- * Author:            Mehedi
- * Author URI:        https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * Author:            MEHEDI HASAN SHIHAB
+ * Author URI:        https://mehedi-hasan-shihab.netlify.app/
  * License:           GPL-2.0+
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       shihab-compressor
  * Domain Path:       /languages
  *
  * @package           Shihab_Compressor
- * @author            Mehedi Hasan Shihab <sshihabb007>
+ * @author            MEHEDI HASAN SHIHAB <sshihabb007>
  */
 
 // Prevent direct access — sshihabb007 security gate
@@ -166,3 +166,4 @@ function shihab_sshihabb007_ajax_fallback_handler()
     $shihab_sshihabb007_fallback = new Shihab_Compressor_Fallback();
     $shihab_sshihabb007_fallback->shihab_sshihabb007_handle_upload();
 }
+

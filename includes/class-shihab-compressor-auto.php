@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Auto-Optimizer — MHS Image Compressor
  *
@@ -12,8 +12,8 @@
  *   - Safe to modify the original at this point.
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
- * @link    https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
+ * @link    https://mehedi-hasan-shihab.netlify.app/
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Shihab_Compressor_Auto
  *
- * Automatic on-upload image optimization by Mehedi Shihab (sshihabb007).
+ * Automatic on-upload image optimization by MEHEDI HASAN SHIHAB (sshihabb007).
  */
 class Shihab_Compressor_Auto {
 
@@ -360,3 +360,5 @@ class Shihab_Compressor_Auto {
         update_option( 'shihab_compressor_sshihabb007_auto_log', $shihab_log );
     }
 }
+
+

@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 /**
  * Smart Intelligence — MHS Image Compressor
  * Smart Quality Balance, compression tiers, AI filenames, focal point meta.
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -277,3 +277,4 @@ class Shihab_Compressor_Smart {
         return new WP_REST_Response( [ 'paused' => $status['paused'] ], 200 );
     }
 }
+

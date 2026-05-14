@@ -1,7 +1,7 @@
 ﻿/**
  * MHS Image Compressor â€” Core Client-Side Engine
- * Author: Mehedi Shihab (sshihabb007)
- * URL: https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * Author: MEHEDI HASAN SHIHAB HASAN SHIHAB (sshihabb007)
+ * URL: https://mehedi-hasan-shihab.netlify.app/
  *
  * Engine stack:
  *  - FFmpeg.wasm  â†’ WebP/AVIF conversion
@@ -576,4 +576,6 @@ document.addEventListener('DOMContentLoaded', async function shihabSshihabb007In
     if (shihabPBtn) shihabPBtn.disabled = !shihabSshihabb007State.queue.length;
   }
 });
-/* END - MHS Compressor by Mehedi Shihab sshihabb007 */
+/* END - MHS Compressor by MEHEDI HASAN SHIHAB sshihabb007 */
+
+

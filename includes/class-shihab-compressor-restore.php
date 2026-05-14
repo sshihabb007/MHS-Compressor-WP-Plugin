@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 /**
  * Backup & Restore — MHS Image Compressor
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -130,3 +130,4 @@ class Shihab_Compressor_Restore {
         return $total;
     }
 }
+

@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 /**
  * Dashboard View — MHS Image Compressor
- * Author: Mehedi Shihab (sshihabb007)
- * URL: https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * Author: MEHEDI HASAN SHIHAB HASAN SHIHAB (sshihabb007)
+ * URL: https://mehedi-hasan-shihab.netlify.app/
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -35,7 +35,7 @@ $shihab_saved_label = $shihab_total_saved >= 1048576
       </svg>
       <div>
         <h1 style="font-size:1.5rem;margin:0;">MHS Compressor <span class="shihab-compressor-badge">v<?php echo SHIHAB_COMPRESSOR_VERSION; ?></span></h1>
-        <p style="margin:0;font-size:0.72rem;color:#6366f1;font-family:'JetBrains Mono',monospace;">by Mehedi Shihab · sshihabb007</p>
+        <p style="margin:0;font-size:0.72rem;color:#6366f1;font-family:'JetBrains Mono',monospace;">by MEHEDI HASAN SHIHAB · sshihabb007</p>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
@@ -43,7 +43,7 @@ $shihab_saved_label = $shihab_total_saved >= 1048576
         <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;animation:shihab-pulse 1.5s infinite;"></span>
         Warming up engine...
       </span>
-      <a href="https://www.linkedin.com/in/mehedi-hasan-shihab/" target="_blank" style="font-size:0.75rem;color:#6366f1;text-decoration:none;border:1px solid rgba(99,102,241,0.3);border-radius:50px;padding:4px 14px;transition:all 0.25s;" onmouseover="this.style.borderColor='#818cf8'" onmouseout="this.style.borderColor='rgba(99,102,241,0.3)'">
+      <a href="https://mehedi-hasan-shihab.netlify.app/" target="_blank" style="font-size:0.75rem;color:#6366f1;text-decoration:none;border:1px solid rgba(99,102,241,0.3);border-radius:50px;padding:4px 14px;transition:all 0.25s;" onmouseover="this.style.borderColor='#818cf8'" onmouseout="this.style.borderColor='rgba(99,102,241,0.3)'">
         Author ↗
       </a>
     </div>
@@ -232,9 +232,11 @@ $shihab_saved_label = $shihab_total_saved >= 1048576
   <!-- ── Footer ─────────────────────────────────────────────── -->
   <div id="shihab-compressor-footer">
     ⚡ MHS Image Compressor v<?php echo SHIHAB_COMPRESSOR_VERSION; ?> &nbsp;·&nbsp;
-    by <a href="https://www.linkedin.com/in/mehedi-hasan-shihab/" target="_blank">Mehedi Shihab</a> &nbsp;·&nbsp;
+    by <a href="https://mehedi-hasan-shihab.netlify.app/" target="_blank">MEHEDI HASAN SHIHAB</a> &nbsp;·&nbsp;
     <code>sshihabb007</code> &nbsp;·&nbsp;
     Engine: FFmpeg.wasm + Transformers.js + Dexie.js
   </div>
 
 </div><!-- /#shihab-compressor-app -->
+
+

@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 /**
  * Dynamic Pipeline — MHS Image Compressor
  * On-the-fly resizing, AVIF/WebP/JPEG format switching, srcset injection.
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -137,3 +137,4 @@ class Shihab_Compressor_Dynamic {
         return count( $files ?: [] );
     }
 }
+

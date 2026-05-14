@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 /**
  * REST API Handler - MHS Image Compressor
- * Author: Mehedi Shihab (sshihabb007)
- * URL: https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * Author: MEHEDI HASAN SHIHAB HASAN SHIHAB (sshihabb007)
+ * URL: https://mehedi-hasan-shihab.netlify.app/
  * Endpoint: POST /wp-json/MHS/v1/upload
  *
  * @package Shihab_Compressor
@@ -80,7 +80,7 @@ class Shihab_Compressor_API {
             'optimized_size' => $shihab_opt_size,
             'saved_bytes'    => $shihab_saved,
             'saved_percent'  => $shihab_orig_size > 0 ? round( ( $shihab_saved / $shihab_orig_size ) * 100, 1 ) : 0,
-            'author'         => 'Mehedi Shihab sshihabb007',
+            'author' => 'MEHEDI HASAN SHIHAB sshihabb007',
         ], 201 );
     }
 
@@ -106,3 +106,5 @@ class Shihab_Compressor_API {
         return new WP_REST_Response( [ 'success' => true, 'settings' => $shihab_updated ], 200 );
     }
 }
+
+

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * PHP Fallback Compression — MHS Image Compressor
  *
@@ -6,8 +6,8 @@
  * does not support SharedArrayBuffer / FFmpeg.wasm (older browsers).
  *
  * @package Shihab_Compressor
- * @author  Mehedi Shihab <sshihabb007>
- * @link    https://www.linkedin.com/in/mehedi-hasan-shihab/
+ * @author  MEHEDI HASAN SHIHAB <sshihabb007>
+ * @link    https://mehedi-hasan-shihab.netlify.app/
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Shihab_Compressor_Fallback
  *
- * Server-side PHP image compression fallback by Mehedi Shihab (sshihabb007).
+ * Server-side PHP image compression fallback by MEHEDI HASAN SHIHAB (sshihabb007).
  * Uses GD → Imagick chain.
  */
 class Shihab_Compressor_Fallback {
@@ -98,7 +98,7 @@ class Shihab_Compressor_Fallback {
             'url'            => wp_get_attachment_url( $shihab_sshihabb007_id ),
             'saved_bytes'    => $shihab_sshihabb007_saved,
             'engine'         => 'php_fallback',
-            'author'         => 'Mehedi Shihab sshihabb007',
+            'author' => 'MEHEDI HASAN SHIHAB sshihabb007',
         ] );
     }
 
@@ -217,3 +217,5 @@ class Shihab_Compressor_Fallback {
         }
     }
 }
+
+

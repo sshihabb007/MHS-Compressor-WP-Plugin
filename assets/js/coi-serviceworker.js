@@ -1,5 +1,5 @@
-/* coi-serviceworker.js — Cross-Origin Isolation Service Worker
- * MHS Image Compressor | Author: Mehedi Shihab (sshihabb007)
+﻿/* coi-serviceworker.js — Cross-Origin Isolation Service Worker
+ * MHS Image Compressor | Author: MEHEDI HASAN SHIHAB HASAN SHIHAB (sshihabb007)
  * Enables SharedArrayBuffer by injecting COOP/COEP headers via SW
  * Source: https://github.com/gzuidhof/coi-serviceworker (MIT)
  */
@@ -25,3 +25,5 @@ self.addEventListener("fetch", function (e) {
       .catch((e) => console.error("[shihab-coi-sw] fetch error:", e))
   );
 });
+
+
