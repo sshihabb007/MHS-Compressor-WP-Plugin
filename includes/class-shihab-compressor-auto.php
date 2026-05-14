@@ -95,6 +95,21 @@ class Shihab_Compressor_Auto {
         }
 
         $shihab_sshihabb007_orig_size = filesize( $shihab_sshihabb007_file );
+
+        // ── Backup original before touching it ──────────────────────────────
+        if ( ! empty( $this->shihab_sshihabb007_settings['backup_originals'] ) ) {
+            $shihab_sshihabb007_restore_obj = new Shihab_Compressor_Restore();
+            $shihab_sshihabb007_restore_obj->shihab_sshihabb007_init();
+            $shihab_sshihabb007_restore_obj->shihab_sshihabb007_create_backup( $shihab_sshihabb007_attach_id );
+        }
+
+        // ── Smart Quality — auto-adjust based on image complexity ───────────
+        if ( ! empty( $this->shihab_sshihabb007_settings['ai_smart_quality'] ) ) {
+            $shihab_sshihabb007_smart_obj = new Shihab_Compressor_Smart();
+            $shihab_sshihabb007_analysis  = $shihab_sshihabb007_smart_obj->shihab_sshihabb007_analyse_quality( $shihab_sshihabb007_file );
+            $shihab_sshihabb007_quality   = $shihab_sshihabb007_analysis['quality'];
+            update_post_meta( $shihab_sshihabb007_attach_id, '_shihab_mhs_smart_tier', $shihab_sshihabb007_analysis['tier'] );
+        }
         $shihab_sshihabb007_format    = $this->shihab_sshihabb007_settings['output_format'] ?? 'webp';
         // If "both" is selected, default to webp for auto-optimize
         if ( $shihab_sshihabb007_format === 'both' ) {

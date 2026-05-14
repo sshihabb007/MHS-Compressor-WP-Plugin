@@ -37,6 +37,9 @@ $shihab_sshihabb007_includes = [
     'includes/class-shihab-compressor-api.php',
     'includes/class-shihab-compressor-fallback.php',
     'includes/class-shihab-compressor-auto.php',
+    'includes/class-shihab-compressor-dynamic.php',
+    'includes/class-shihab-compressor-restore.php',
+    'includes/class-shihab-compressor-smart.php',
 ];
 
 foreach ($shihab_sshihabb007_includes as $shihab_sshihabb007_file) {
@@ -67,14 +70,20 @@ register_activation_hook(__FILE__, 'shihab_sshihabb007_activate');
 function shihab_sshihabb007_activate()
 {
     add_option('shihab_compressor_sshihabb007_settings', [
-        'output_format'     => 'webp',
-        'quality'           => 75,
-        'smart_resize'      => true,
-        'strip_metadata'    => true,
-        'batch_concurrency' => 3,
-        'ai_alt_text'       => true,
-        'indexeddb_cache'   => true,
-        'auto_optimize'     => true,
+        'output_format'      => 'webp',
+        'quality'            => 75,
+        'compression_tier'   => 'glossy',
+        'smart_resize'       => true,
+        'max_width'          => 2000,
+        'strip_metadata'     => true,
+        'batch_concurrency'  => 3,
+        'ai_alt_text'        => true,
+        'ai_smart_quality'   => true,
+        'ai_seo_filename'    => true,
+        'indexeddb_cache'    => true,
+        'auto_optimize'      => true,
+        'backup_originals'   => true,
+        'dynamic_delivery'   => false,
     ]);
     add_option('shihab_compressor_sshihabb007_stats', [
         'total_images' => 0,
@@ -123,9 +132,26 @@ if (is_admin()) {
     $shihab_sshihabb007_admin->shihab_sshihabb007_init();
 }
 
-// Auto-Optimizer: runs on every image upload (front-end & admin)
+// Auto-Optimizer: runs on every image upload
 $shihab_sshihabb007_auto = new Shihab_Compressor_Auto();
 $shihab_sshihabb007_auto->shihab_sshihabb007_init();
+
+// Dynamic Pipeline: format switching, srcset injection, lazy load
+$shihab_sshihabb007_dynamic = new Shihab_Compressor_Dynamic();
+$shihab_sshihabb007_dynamic->shihab_sshihabb007_init();
+
+// Backup & Restore
+$shihab_sshihabb007_restore = new Shihab_Compressor_Restore();
+$shihab_sshihabb007_restore->shihab_sshihabb007_init();
+
+// Smart Intelligence + Bulk + Directory Smush
+$shihab_sshihabb007_smart = new Shihab_Compressor_Smart();
+$shihab_sshihabb007_smart->shihab_sshihabb007_init();
+
+// Bulk cron handler
+add_action( Shihab_Compressor_Smart::SHIHAB_BULK_CRON, function() use ( $shihab_sshihabb007_smart ) {
+    $shihab_sshihabb007_smart->shihab_sshihabb007_bulk_cron_handler();
+} );
 
 add_action('rest_api_init', function () {
     $shihab_sshihabb007_api = new Shihab_Compressor_API();

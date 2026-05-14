@@ -103,6 +103,22 @@ class Shihab_Compressor_Fallback {
     }
 
     /**
+     * Public wrapper: compress any file path directly (used by Directory Smush).
+     *
+     * @param string $shihab_path   Absolute file path.
+     * @param int    $shihab_q      Quality 0-100.
+     * @param string $shihab_fmt    'webp' or 'avif'.
+     * @return array { success: bool, tmp_path: string }
+     */
+    public function shihab_sshihabb007_compress_file_direct( $shihab_path, $shihab_q, $shihab_fmt ) {
+        $r = $this->shihab_sshihabb007_compress_gd( $shihab_path, $shihab_q, $shihab_fmt );
+        if ( ! $r['success'] && extension_loaded( 'imagick' ) ) {
+            $r = $this->shihab_sshihabb007_compress_imagick( $shihab_path, $shihab_q, $shihab_fmt );
+        }
+        return $r;
+    }
+
+    /**
      * Compress image using PHP GD library.
      *
      * @param string $shihab_sshihabb007_source  Path to source image.
